@@ -3,10 +3,12 @@ services:
   demo-app:
     build: .
     volumes:
-      - ./.venv:/src/.venv
-      - .:/src
+      - .:/src/app
+      - venv-data:/src/.venv
     ports:
       - "8000:8000"
     environment:
       - WATCHFILES_FORCE_POLLING=true
-  
+      - PYTHONPATH=/src/app
+volumes:
+  venv-data:

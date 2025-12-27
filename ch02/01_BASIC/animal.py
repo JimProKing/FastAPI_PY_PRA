@@ -21,22 +21,3 @@ print(animal2.height)
 print(animal1.__dict__) # animal1 객체의 내용을 dict으로 반환
 print(animal2.__dict__)
 
-# 02. 클래스 상속
-
-## 오버라이드:: 하위 클래스에서 재정의
-# 구현부
-class Animal:
-    height = 30
-
-    def get_height(self):
-        print(f"Animal:: {self.height}")
-
-class Dog(Animal):
-    height = 20
-    
-    def get_height(self):
-        # return super().get_height()
-        print(f"Dog:: {self.height}")
-# 출력
-dog = Dog()
-print(dog.get_height())
