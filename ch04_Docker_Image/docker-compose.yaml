@@ -1,4 +1,5 @@
-version: '3'
+version: '3.8'
+
 services:
   demo-app:
     build: .
@@ -10,5 +11,24 @@ services:
     environment:
       - WATCHFILES_FORCE_POLLING=true
       - PYTHONPATH=/src/app
+    depends_on:
+      - db  # db 컨테이너가 먼저 시작되도록 보장
+
+  db:
+    image: mariadb:10.11  # ← mysql:8.0 대신 MariaDB 사용 (맥 호환 최고!)
+    environment:
+      MYSQL_ROOT_PASSWORD: ""          # 빈 비밀번호 허용 (root 비번 없음)
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"  # 보안 경고 무시
+      MYSQL_DATABASE: demo             # 자동으로 demo DB 생성
+      MYSQL_USER: demo_user            # (선택) 추가 사용자 생성
+      MYSQL_PASSWORD: demo_pass        # (선택) 사용자 비밀번호
+      TZ: Asia/Seoul
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "33306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
 volumes:
   venv-data:
+  mysql_data:
